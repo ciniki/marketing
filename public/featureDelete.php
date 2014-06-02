@@ -34,6 +34,8 @@ function ciniki_marketing_featureDelete(&$ciniki) {
         return $rc;
     }   
 
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectDelete');
+
 	//
 	// Get the existing feature information
 	//
@@ -53,7 +55,6 @@ function ciniki_marketing_featureDelete(&$ciniki) {
 	//
 	// Delete the object
 	//
-	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectDelete');
 	return ciniki_core_objectDelete($ciniki, $args['business_id'], 'ciniki.marketing.feature', $args['feature_id'], $item['uuid'], 0x07);
 }
 ?>

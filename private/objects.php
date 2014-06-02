@@ -9,19 +9,44 @@
 // Returns
 // -------
 //
-function ciniki_events_objects($ciniki) {
+function ciniki_marketing_objects($ciniki) {
 	
 	$objects = array();
+	$objects['category'] = array(
+		'name'=>'Category',
+		'sync'=>'yes',
+		'table'=>'ciniki_marketing_categories',
+		'fields'=>array(
+			'title'=>array(),
+			'permalink'=>array(),
+			'sequence'=>array(),
+			'ctype'=>array(),
+			'webflags'=>array(),
+			'short_description'=>array(),
+			'full_description'=>array(),
+			'base_notes'=>array(),
+			'addon_description'=>array(),
+			'addon_notes'=>array(),
+			'future_description'=>array(),
+			'future_notes'=>array(),
+			'signup_text'=>array(),
+			'signup_url'=>array(),
+			),
+		'history_table'=>'ciniki_marketing_history',
+		);
 	$objects['feature'] = array(
 		'name'=>'Features',
 		'sync'=>'yes',
 		'table'=>'ciniki_marketing_features',
 		'fields'=>array(
+			'category_id'=>array('ref'=>'ciniki.marketing.category'),
+			'section'=>array(),
+			'sequence'=>array(),
 			'title'=>array(),
 			'permalink'=>array(),
 			'primary_image_id'=>array('ref'=>'ciniki.images.image'),
 			'webflags'=>array(),
-			'oneline_description'=>array(),
+			'price'=>array(),
 			'short_description'=>array(),
 			'full_description'=>array(),
 			),
@@ -38,33 +63,6 @@ function ciniki_events_objects($ciniki) {
 			'webflags'=>array(),
 			'image_id'=>array('ref'=>'ciniki.images.image'),
 			'description'=>array(),
-			),
-		'history_table'=>'ciniki_marketing_history',
-		);
-	$objects['plan_feature'] = array(
-		'name'=>'Plan Feature',
-		'sync'=>'yes',
-		'table'=>'ciniki_marketing_plan_features',
-		'fields'=>array(
-			'plan_id'=>array('ref'=>'ciniki.marketing.plan'),
-			'feature_id'=>array('ref'=>'ciniki.marketing.feature'),
-			'flags'=>array(),
-			'notes'=>array(),
-			),
-		'history_table'=>'ciniki_marketing_history',
-		);
-	$objects['plan'] = array(
-		'name'=>'Plan',
-		'sync'=>'yes',
-		'table'=>'ciniki_marketing_plans',
-		'fields'=>array(
-			'group'=>array(),
-			'name'=>array(),
-			'permalink'=>array(),
-			'webflags'=>array(),
-			'short_description'=>array(),
-			'full_description'=>array(),
-			'signup_url'=>array(),
 			),
 		'history_table'=>'ciniki_marketing_history',
 		);

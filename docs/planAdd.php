@@ -26,13 +26,15 @@ function ciniki_marketing_planAdd(&$ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
 	$rc = ciniki_core_prepareArgs($ciniki, 'no', array(
 		'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
-		'title'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Title'), 
+		'group_name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Group'), 
+		'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'name'), 
 		'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'), 
+		'price'=>array('required'=>'no', 'blank'=>'no', 'default'=>'0', 'type'=>'currency', 'name'=>'Price'), 
 		'primary_image_id'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Image'), 
 		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'), 
-		'oneline_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Description'), 
-		'short_description'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Number of Tickets'),
-		'full_description'=>array('required'=>'no', 'default'=>'0', 'blank'=>'no', 'name'=>'Registration Flags'),
+		'short_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Short Description'),
+		'full_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Full Description'),
+		'signup_url'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Signup URL'),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -41,7 +43,7 @@ function ciniki_marketing_planAdd(&$ciniki) {
 	
 	if( !isset($args['permalink']) || $args['permalink'] == '' ) {	
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['name']);
+		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['group_name'] . '-' . $args['name']);
 	}
 
 	//
@@ -65,7 +67,7 @@ function ciniki_marketing_planAdd(&$ciniki) {
 		return $rc;
 	}
 	if( $rc['num_rows'] > 0 ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1744', 'msg'=>'You already have an plan with this name, please choose another name'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1757', 'msg'=>'You already have an plan with this name, please choose another name'));
 	}
 
 	//

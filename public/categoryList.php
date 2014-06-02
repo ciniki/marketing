@@ -13,14 +13,14 @@
 // -------
 // <rsp stat='ok' />
 //
-function ciniki_marketing_featureList(&$ciniki) {
+function ciniki_marketing_categoryList(&$ciniki) {
     //  
     // Find all the required and optional arguments
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
-        'category_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Category'), 
+        'type'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Category Type'), 
         )); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
@@ -32,7 +32,7 @@ function ciniki_marketing_featureList(&$ciniki) {
     // check permission to run this function for this business
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureList'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.categoryList'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
@@ -40,30 +40,25 @@ function ciniki_marketing_featureList(&$ciniki) {
 	//
 	// Get the existing details
 	//
-	$strsql = "SELECT id, "
-		. "category_id, section, section AS section_text, sequence, title "
-		. "FROM ciniki_marketing_features "
+	$strsql = "SELECT id, title "
+		. "FROM ciniki_marketing_categories "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
-		. "";
-	if( isset($args['category_id']) && $args['category_id'] != '' ) {
-		$strsql .= "AND category_id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' ";
-	}
-	$strsql .= "ORDER BY section, sequence, title "
+		. "AND ctype = '" . ciniki_core_dbQuote($ciniki, $args['type']) . "' "
+		. "ORDER BY sequence, title "
 		. "";
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
 	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.marketing', array(
-		array('container'=>'features', 'fname'=>'id', 'name'=>'feature',
-			'fields'=>array('id', 'category_id', 'section', 'section_text', 'sequence', 'title'),
-			'maps'=>array('section_text'=>array('10'=>'Base', '30'=>'Addon', '50'=>'Future'))),
+		array('container'=>'categories', 'fname'=>'id', 'name'=>'category',
+			'fields'=>array('id', 'title')),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
-	if( !isset($rc['features']) ) {
-		return array('stat'=>'ok', 'features'=>array());
+	if( !isset($rc['categories']) ) {
+		return array('stat'=>'ok', 'categories'=>array());
 	}
-	$features = $rc['features'];
+	$categories = $rc['categories'];
 
-	return array('stat'=>'ok', 'features'=>$features);
+	return array('stat'=>'ok', 'categories'=>$categories);
 }
 ?>

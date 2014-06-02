@@ -22,13 +22,15 @@ function ciniki_marketing_planUpdate(&$ciniki) {
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
         'plan_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Plan'), 
-		'title'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Title'), 
+		'group_name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Group'), 
+		'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Name'), 
 		'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'), 
+		'price'=>array('required'=>'no', 'blank'=>'no', 'type'=>'currency', 'name'=>'Price'), 
 		'primary_image_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image'), 
 		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'), 
-		'oneline_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Description'), 
-		'short_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Number of Tickets'),
-		'full_description'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Registration Flags'),
+		'short_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Short Description'),
+		'full_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Full Description'),
+		'signup_url'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Signup URL'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
@@ -48,7 +50,7 @@ function ciniki_marketing_planUpdate(&$ciniki) {
 	//
 	// Get the existing details
 	//
-	$strsql = "SELECT plan_id, uuid, primary_image_id FROM ciniki_marketing_plans "
+	$strsql = "SELECT id, uuid, group_name, name, primary_image_id FROM ciniki_marketing_plans "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['plan_id']) . "' "
 		. "";
@@ -57,16 +59,20 @@ function ciniki_marketing_planUpdate(&$ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['item']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1754', 'msg'=>'Plan not found'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1760', 'msg'=>'Plan not found'));
 	}
 	$item = $rc['item'];
 
-	if( isset($args['name']) ) {
+	if( isset($args['group_name']) || isset($args['name']) ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-		if( $args['name'] != '' ) {
-			$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['name']);
+		if( isset($args['group_name']) && isset($args['name']) ) {
+			$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['group_name'] . '-' . $args['name']);
+		} elseif( isset($args['group_name']) && !isset($args['name']) ) {
+			$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['group_name'] . '-' . $item['name']);
+		} elseif( !isset($args['group_name']) && isset($args['name']) ) {
+			$args['permalink'] = ciniki_core_makePermalink($ciniki, $item['group_name'] . '-' . $args['name']);
 		} else {
-			$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['uuid']);
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1756', 'msg'=>'Internal error'));
 		}
 		//
 		// Make sure the permalink is unique
@@ -82,7 +88,7 @@ function ciniki_marketing_planUpdate(&$ciniki) {
 			return $rc;
 		}
 		if( $rc['num_rows'] > 0 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1755', 'msg'=>'You already have an plan with this name, please choose another name'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1761', 'msg'=>'You already have an plan with this name, please choose another name'));
 		}
 	}
 

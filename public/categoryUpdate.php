@@ -7,31 +7,35 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:			The ID of the business to add the feature image to.
+// business_id:			The ID of the business to add the category image to.
 // name:				The name of the image.  
 //
 // Returns
 // -------
 // <rsp stat='ok' />
 //
-function ciniki_marketing_featureUpdate(&$ciniki) {
+function ciniki_marketing_categoryUpdate(&$ciniki) {
     //  
     // Find all the required and optional arguments
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
         'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
-        'feature_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Feature'), 
-		'category_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Category'), 
-		'section'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section'), 
-		'sequence'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Sequence'), 
+        'category_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Category'), 
 		'title'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Title'), 
 		'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'), 
-		'primary_image_id'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Image'), 
+		'sequence'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section'), 
+		'ctype'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Type'), 
 		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'), 
-		'price'=>array('required'=>'no', 'blank'=>'yes', 'type'=>'currency', 'name'=>'Price'), 
 		'short_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Short Description'),
 		'full_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Full Description'),
+		'base_notes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Base Notes'),
+		'addon_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Addon Description'),
+		'addon_notes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Addon Notes'),
+		'future_description'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Future Description'),
+		'future_notes'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Future Notes'),
+		'signup_text'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Signup Text'),
+		'signup_url'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Signup URL'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
@@ -43,7 +47,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
     // check permission to run this function for this business
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureUpdate'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.categoryUpdate'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
@@ -51,10 +55,10 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 	//
 	// Get the existing details
 	//
-	$strsql = "SELECT id, uuid, title, primary_image_id "
-		. "FROM ciniki_marketing_features "
+	$strsql = "SELECT id, uuid, title "
+		. "FROM ciniki_marketing_categories "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
-		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
+		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
 		. "";
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'item');
 	if( $rc['stat'] != 'ok' ) {
@@ -65,32 +69,34 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 	}
 	$item = $rc['item'];
 
-	if( isset($args['title']) ) {
+	if( isset($args['category']) || isset($args['title']) ) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
+		if( isset($args['title']) ) {
+			$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
+		} 
 
 		//
 		// Make sure the permalink is unique
 		//
 		$strsql = "SELECT id, title, permalink "
-			. "FROM ciniki_marketing_features "
+			. "FROM ciniki_marketing_categories "
 			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 			. "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
-			. "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
+			. "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
 			. "";
-		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'feature');
+		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'category');
 		if( $rc['stat'] != 'ok' ) {
 			return $rc;
 		}
 		if( $rc['num_rows'] > 0 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1755', 'msg'=>'You already have an feature with this name, please choose another name'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1755', 'msg'=>'You already have an category with this name, please choose another name'));
 		}
 	}
 
 	//
-	// Update the feature in the database
+	// Update the category in the database
 	//
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
-	return ciniki_core_objectUpdate($ciniki, $args['business_id'], 'ciniki.marketing.feature', $args['feature_id'], $args);
+	return ciniki_core_objectUpdate($ciniki, $args['business_id'], 'ciniki.marketing.category', $args['category_id'], $args);
 }
 ?>

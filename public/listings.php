@@ -7,13 +7,13 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:			The ID of the business to add the plan image to.
+// business_id:			The ID of the business to add the feature image to.
 //
 // Returns
 // -------
 // <rsp stat='ok' />
 //
-function ciniki_marketing_planList(&$ciniki) {
+function ciniki_marketing_listings(&$ciniki) {
     //  
     // Find all the required and optional arguments
     //  
@@ -31,32 +31,57 @@ function ciniki_marketing_planList(&$ciniki) {
     // check permission to run this function for this business
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.planList'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.listings'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
 
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
+
 	//
-	// Get the existing details
+	// Get the existing plans
 	//
 	$strsql = "SELECT id, "
-		. "group, name "
+		. "group_name, name "
 		. "FROM ciniki_marketing_plans "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
-		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['plan_id']) . "' "
+		. "ORDER BY group_name, name "
 		. "";
 	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.marketing', array(
 		array('container'=>'plans', 'fname'=>'id', 'name'=>'plan',
-			'fields'=>array('id', 'group', 'name')),
+			'fields'=>array('id', 'group_name', 'name')),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	if( !isset($rc['plans']) ) {
-		return array('stat'=>'ok', 'plans'=>array());
+		$plans = array();
+	} else {
+		$plans = $rc['plans'];
 	}
-	$plans = $rc['plans'];
 
-	return array('stat'=>'ok', 'plans'=>$plans);
+	//
+	// Get the existing features
+	//
+	$strsql = "SELECT id, "
+		. "title "
+		. "FROM ciniki_marketing_features "
+		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+		. "ORDER BY title "
+		. "";
+	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.marketing', array(
+		array('container'=>'features', 'fname'=>'id', 'name'=>'feature',
+			'fields'=>array('id', 'title')),
+		));
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	if( !isset($rc['features']) ) {
+		$features = array();
+	} else {
+		$features = $rc['features'];
+	}
+
+	return array('stat'=>'ok', 'plans'=>$plans, 'features'=>$features);
 }
 ?>

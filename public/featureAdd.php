@@ -26,13 +26,17 @@ function ciniki_marketing_featureAdd(&$ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
 	$rc = ciniki_core_prepareArgs($ciniki, 'no', array(
 		'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+		'category_id'=>array('required'=>'no', 'blank'=>'no', 'default'=>'', 'name'=>'Category'), 
+		'section'=>array('required'=>'no', 'blank'=>'no', 'default'=>'10', 'name'=>'Section'), 
+		'sequence'=>array('required'=>'no', 'blank'=>'no', 'default'=>'10', 'name'=>'Section'), 
 		'title'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Title'), 
 		'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'), 
 		'primary_image_id'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Image'), 
 		'webflags'=>array('required'=>'no', 'blank'=>'yes', 'name'=>'Options'), 
-		'oneline_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Description'), 
-		'short_description'=>array('required'=>'no', 'default'=>'0', 'blank'=>'yes', 'name'=>'Number of Tickets'),
-		'full_description'=>array('required'=>'no', 'default'=>'0', 'blank'=>'no', 'name'=>'Registration Flags'),
+		'price'=>array('required'=>'no', 'blank'=>'yes', 'type'=>'currency', 'default'=>'0', 'name'=>'Price'), 
+		'short_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Short Description'),
+		'full_description'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'name'=>'Full Description'),
+		'images'=>array('required'=>'no', 'default'=>'', 'blank'=>'yes', 'type'=>'idlist', 'name'=>'Images'),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
@@ -41,7 +45,7 @@ function ciniki_marketing_featureAdd(&$ciniki) {
 	
 	if( !isset($args['permalink']) || $args['permalink'] == '' ) {	
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
-		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['name']);
+		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
 	}
 
 	//

@@ -8,7 +8,7 @@
 # uuid:				The Universal Unique ID.
 # business_id:		The ID of the business
 #
-# group:			The group the plan is a part of.  This is used when there are different
+# group_name:		The group the plan is a part of.  This is used when there are different
 #					plan groupings for Artists, Clubs or Winemakers, etc...
 #
 # name:				The name of the plan.
@@ -30,9 +30,10 @@ create table ciniki_marketing_plans (
 	id int not null auto_increment,
 	uuid char(36) not null,
 	business_id int not null,
-	group varchar(100) not null,
+	group_name varchar(100) not null,
 	name varchar(150) not null,
 	permalink varchar(150) not null,
+	price decimal(19,4) not null,
 	webflags tinyint unsigned not null,
 	short_description varchar(6000) not null,
 	full_description varchar(10000) not null,

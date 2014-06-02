@@ -37,6 +37,19 @@ function ciniki_marketing_planGet($ciniki) {
         return $rc;
     }   
 
+	//
+	// Load the business intl settings
+	//
+	ciniki_core_loadMethod($ciniki, 'ciniki', 'businesses', 'private', 'intlSettings');
+	$rc = ciniki_businesses_intlSettings($ciniki, $args['business_id']);
+	if( $rc['stat'] != 'ok' ) {
+		return $rc;
+	}
+	$intl_timezone = $rc['settings']['intl-default-timezone'];
+	$intl_currency_fmt = numfmt_create($rc['settings']['intl-default-locale'], NumberFormatter::CURRENCY);
+	$intl_currency = $rc['settings']['intl-default-currency'];
+
+
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbQuote');
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'users', 'private', 'dateFormat');
 	$date_format = ciniki_users_dateFormat($ciniki);
@@ -45,11 +58,11 @@ function ciniki_marketing_planGet($ciniki) {
 	// Get the main information
 	//
 	$strsql = "SELECT ciniki_marketing_plans.id, "
-		. "ciniki_marketing_plans.title, "
+		. "ciniki_marketing_plans.group_name, "
+		. "ciniki_marketing_plans.name, "
 		. "ciniki_marketing_plans.permalink, "
-		. "ciniki_marketing_plans.primary_image_id, "
+		. "ciniki_marketing_plans.price, "
 		. "ciniki_marketing_plans.webflags, "
-		. "ciniki_marketing_plans.oneline_description, "
 		. "ciniki_marketing_plans.short_description, "
 		. "ciniki_marketing_plans.full_description "
 		. "FROM ciniki_marketing_plans "
@@ -59,16 +72,18 @@ function ciniki_marketing_planGet($ciniki) {
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');
 	$rc = ciniki_core_dbHashQueryTree($ciniki, $strsql, 'ciniki.marketing', array(
 		array('container'=>'plans', 'fname'=>'id', 'name'=>'plan',
-			'fields'=>array('id', 'title', 'permalink', 'primary_image_id', 
-				'webflags', 'oneline_description', 'short_description', 'full_description')),
+			'fields'=>array('id', 'group_name', 'name', 'permalink', 'price',
+				'webflags', 'short_description', 'full_description')),
 		));
 	if( $rc['stat'] != 'ok' ) {
 		return $rc;
 	}
 	if( !isset($rc['plans']) ) {
-		return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1745', 'msg'=>'Unable to find plan'));
+		return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1759', 'msg'=>'Unable to find plan'));
 	}
 	$plan = $rc['plans'][0]['plan'];
+
+	$plan['price'] = numfmt_format_currency($intl_currency_fmt, $plan['price'], $intl_currency);
 	
 	return array('stat'=>'ok', 'plan'=>$plan);
 }
