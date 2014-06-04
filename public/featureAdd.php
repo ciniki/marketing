@@ -63,6 +63,7 @@ function ciniki_marketing_featureAdd(&$ciniki) {
 	$strsql = "SELECT id FROM ciniki_marketing_features "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' " 
 		. "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
+		. "AND category_id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
 		. "";
 	$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'feature');
 	if( $rc['stat'] != 'ok' ) {

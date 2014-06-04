@@ -51,7 +51,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 	//
 	// Get the existing details
 	//
-	$strsql = "SELECT id, uuid, title, primary_image_id "
+	$strsql = "SELECT id, uuid, category_id, title, primary_image_id "
 		. "FROM ciniki_marketing_features "
 		. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 		. "AND id = '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
@@ -69,6 +69,12 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 		ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'makePermalink');
 		$args['permalink'] = ciniki_core_makePermalink($ciniki, $args['title']);
 
+		if( isset($args['category_id']) ) {
+			$category_id = $args['category_id'];
+		} else {
+			$category_id = $item['category_id'];
+		}
+
 		//
 		// Make sure the permalink is unique
 		//
@@ -76,6 +82,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 			. "FROM ciniki_marketing_features "
 			. "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
 			. "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
+			. "AND category_id = '" . ciniki_core_dbQuote($ciniki, $category_id) . "' "
 			. "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
 			. "";
 		$rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'feature');
