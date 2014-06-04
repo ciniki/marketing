@@ -34,7 +34,6 @@ function ciniki_marketing_web_featureDetails($ciniki, $settings, $business_id, $
 		. "ciniki_marketing_feature_images.name AS image_name, "
 		. "ciniki_marketing_feature_images.permalink AS image_permalink, "
 		. "ciniki_marketing_feature_images.description AS image_description, "
-		. "ciniki_marketing_feature_images.url AS image_url, "
 		. "UNIX_TIMESTAMP(ciniki_marketing_feature_images.last_updated) AS image_last_updated "
 		. "FROM ciniki_marketing_features "
 		. "LEFT JOIN ciniki_marketing_feature_images ON ("
@@ -49,10 +48,10 @@ function ciniki_marketing_web_featureDetails($ciniki, $settings, $business_id, $
 	$rc = ciniki_core_dbHashQueryIDTree($ciniki, $strsql, 'ciniki.features', array(
 		array('container'=>'features', 'fname'=>'id', 
 			'fields'=>array('id', 'section', 'sequence', 'title', 'permalink', 
-				'image_id'=>'primary_image_id', 'price', 'full_description')),
+				'image_id'=>'primary_image_id', 'full_description')),
 		array('container'=>'images', 'fname'=>'image_id', 
 			'fields'=>array('image_id', 'title'=>'image_name', 'permalink'=>'image_permalink',
-				'description'=>'image_description', 'url'=>'image_url',
+				'description'=>'image_description', 
 				'last_updated'=>'image_last_updated')),
 		));
 	if( $rc['stat'] != 'ok' ) {
