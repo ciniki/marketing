@@ -115,7 +115,7 @@ function ciniki_marketing_feature() {
 			return 0;
 		};
 		this.edit.thumbFn = function(s, i, d) {
-			return 'M.startApp(\'ciniki.featureimages.images\',null,\'M.ciniki_marketing_main.edit.addDropImageRefresh();\',\'mc\',{\'feature_id\':M.ciniki_marketing_main.edit.feature_id,\'feature_image_id\':\'' + d.image.id + '\'});';
+			return 'M.startApp(\'ciniki.marketing.featureimages\',null,\'M.ciniki_marketing_feature.edit.addDropImageRefresh();\',\'mc\',{\'feature_id\':M.ciniki_marketing_feature.edit.feature_id,\'feature_image_id\':\'' + d.image.id + '\'});';
 		};
 		this.edit.addButton('save', 'Save', 'M.ciniki_marketing_feature.saveFeature();');
 		this.edit.addClose('Cancel');
