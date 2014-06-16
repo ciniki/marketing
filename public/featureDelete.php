@@ -48,7 +48,7 @@ function ciniki_marketing_featureDelete(&$ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['item']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1746', 'msg'=>'Feature does not exist'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1765', 'msg'=>'Feature does not exist'));
 	}
 	$item = $rc['item'];
 

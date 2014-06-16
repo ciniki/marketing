@@ -70,7 +70,7 @@ function ciniki_marketing_featureGet($ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['features']) ) {
-		return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1745', 'msg'=>'Unable to find feature'));
+		return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1766', 'msg'=>'Unable to find feature'));
 	}
 	$feature = $rc['features'][0]['feature'];
 

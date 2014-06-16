@@ -70,7 +70,7 @@ function ciniki_marketing_featureAdd(&$ciniki) {
 		return $rc;
 	}
 	if( $rc['num_rows'] > 0 ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1744', 'msg'=>'You already have an feature with this name, please choose another name'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1764', 'msg'=>'You already have an feature with this name, please choose another name'));
 	}
 
 	//

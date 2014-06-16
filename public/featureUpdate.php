@@ -61,7 +61,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 		return $rc;
 	}
 	if( !isset($rc['item']) ) {
-		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1754', 'msg'=>'Feature not found'));
+		return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1767', 'msg'=>'Feature not found'));
 	}
 	$item = $rc['item'];
 
@@ -90,7 +90,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 			return $rc;
 		}
 		if( $rc['num_rows'] > 0 ) {
-			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1755', 'msg'=>'You already have an feature with this name, please choose another name'));
+			return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1768', 'msg'=>'You already have an feature with this name, please choose another name'));
 		}
 	}
 
