@@ -34,7 +34,7 @@ function ciniki_marketing_featureImageAdd(&$ciniki) {
     // check permission to run this function for this business
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.imageAdd'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureImageAdd'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     } 

@@ -29,7 +29,7 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
     // check permission to run this function for this business
     //  
 	ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.categoryImageDelete'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.categoryDelete'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }   
