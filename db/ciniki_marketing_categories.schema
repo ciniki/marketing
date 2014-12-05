@@ -1,6 +1,7 @@
 #
 # Description
 # -----------
+# The categories to organize the features.
 #
 # Fields
 # ------
@@ -24,6 +25,17 @@
 # short_description:	Used as the description when listing the category.
 #
 # full_description: 	Used on the detail page for the details about the category.
+#
+# base_notes:			The notes to be displayed at the end of the base features section.
+#
+# addon_description:	The description for the addon features section on the website.
+# addon_notes:			The notes to be displayed at the end of the addon features.
+#
+# future_description:	The description for the future features section on the website.
+# future_notes:			The notes to be displayed at the end of the future features.
+#
+# signup_text:			The description to display for the signup button.
+# signup_url:			The URL to direct to the signup for this marketing category.
 #
 # date_added:		The UTC date and time the record was added.
 # last_updated:		The UTC date and time the record was last updated.
