@@ -24,7 +24,7 @@ function ciniki_marketing_feature() {
 		this.edit.feature_id = 0;
 		this.edit.additional_images = [];
         this.edit.sections = { 
-			'_image':{'label':'', 'aside':'yes', 'fields':{
+			'_image':{'label':'', 'aside':'yes', 'type':'imageform', 'fields':{
 				'primary_image_id':{'label':'', 'type':'image_id', 'hidelabel':'yes', 
 					'controls':'all', 'history':'no',
 					'addDropImage':function(iid) {
