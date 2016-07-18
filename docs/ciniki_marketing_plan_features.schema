@@ -5,36 +5,36 @@
 #
 # Fields
 # ------
-# id:				The ID assigned to the item.
-# uuid:				The Universal Unique ID.
-# business_id:		The ID of the business
+# id:               The ID assigned to the item.
+# uuid:             The Universal Unique ID.
+# business_id:      The ID of the business
 #
-# plan_id:			The ID of the plan the feature is attached to.
-# feature_id:		The ID of the feature to attach to the plan.
+# plan_id:          The ID of the plan the feature is attached to.
+# feature_id:       The ID of the feature to attach to the plan.
 #
-# sequence:			The order this feature should appear for the plan.
+# sequence:         The order this feature should appear for the plan.
 #
-# flags:			The type of connection.
-#					0x01 - Feature include in plan
-#					0x02 - Feature available as an add-on
+# flags:            The type of connection.
+#                   0x01 - Feature include in plan
+#                   0x02 - Feature available as an add-on
 #
-# notes:			Any notes that are specific to this feature being included in this plan.  
-#					This should include upgrade costs.
+# notes:            Any notes that are specific to this feature being included in this plan.  
+#                   This should include upgrade costs.
 #
-# date_added:		The UTC date and time the record was added.
-# last_updated:		The UTC date and time the record was last updated.
+# date_added:       The UTC date and time the record was added.
+# last_updated:     The UTC date and time the record was last updated.
 #
 create table ciniki_marketing_plan_features (
-	id int not null auto_increment,
-	uuid char(36) not null,
-	business_id int not null,
-	plan_id int not null,
-	feature_id int not null,
-	sequence tinyint unsigned not null,
-	flags tinyint unsigned not null,
-	notes varchar(2000) not null,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (id),
-	index sync (business_id, uuid, last_updated)
+    id int not null auto_increment,
+    uuid char(36) not null,
+    business_id int not null,
+    plan_id int not null,
+    feature_id int not null,
+    sequence tinyint unsigned not null,
+    flags tinyint unsigned not null,
+    notes varchar(2000) not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    index sync (business_id, uuid, last_updated)
 ) ENGINE='InnoDB', COMMENT='v1.01', CHARACTER SET latin1, COLLATE latin1_swedish_ci;

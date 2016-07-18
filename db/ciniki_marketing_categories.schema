@@ -5,61 +5,61 @@
 #
 # Fields
 # ------
-# id:				The ID assigned to the item.
-# uuid:				The Universal Unique ID.
-# business_id:		The ID of the business
+# id:               The ID assigned to the item.
+# uuid:             The Universal Unique ID.
+# business_id:      The ID of the business
 #
-# title:			The title of the category.
-# permalink:		The permalink is the title.
+# title:            The title of the category.
+# permalink:        The permalink is the title.
 #
-# sequence:			The order of the category.
+# sequence:         The order of the category.
 #
-# ctype:			The category type:
+# ctype:            The category type:
 #
-#					10 - Features Category
+#                   10 - Features Category
 #
-# webflags:			The flags for displaying on the website.
+# webflags:         The flags for displaying on the website.
 #
-#					0x01 - Visible on website
+#                   0x01 - Visible on website
 #
-# short_description:	Used as the description when listing the category.
+# short_description:    Used as the description when listing the category.
 #
-# full_description: 	Used on the detail page for the details about the category.
+# full_description:     Used on the detail page for the details about the category.
 #
-# base_notes:			The notes to be displayed at the end of the base features section.
+# base_notes:           The notes to be displayed at the end of the base features section.
 #
-# addon_description:	The description for the addon features section on the website.
-# addon_notes:			The notes to be displayed at the end of the addon features.
+# addon_description:    The description for the addon features section on the website.
+# addon_notes:          The notes to be displayed at the end of the addon features.
 #
-# future_description:	The description for the future features section on the website.
-# future_notes:			The notes to be displayed at the end of the future features.
+# future_description:   The description for the future features section on the website.
+# future_notes:         The notes to be displayed at the end of the future features.
 #
-# signup_text:			The description to display for the signup button.
-# signup_url:			The URL to direct to the signup for this marketing category.
+# signup_text:          The description to display for the signup button.
+# signup_url:           The URL to direct to the signup for this marketing category.
 #
-# date_added:		The UTC date and time the record was added.
-# last_updated:		The UTC date and time the record was last updated.
+# date_added:       The UTC date and time the record was added.
+# last_updated:     The UTC date and time the record was last updated.
 #
 create table ciniki_marketing_categories (
-	id int not null auto_increment,
-	uuid char(36) not null,
-	business_id int not null,
-	title varchar(150) not null,
-	permalink varchar(150) not null,
-	sequence tinyint unsigned not null,
-	ctype tinyint unsigned not null,
-	webflags tinyint unsigned not null,
-	short_description varchar(6000) not null,
-	full_description text not null,
-	base_notes text not null,
-	addon_description text not null,
-	addon_notes text not null,
-	future_description text not null,
-	future_notes text not null,
-	signup_text varchar(50) not null,
-	signup_url varchar(250) not null,
-	date_added datetime not null,
-	last_updated datetime not null,
-	primary key (id),
-	index sync (business_id, uuid, last_updated)
+    id int not null auto_increment,
+    uuid char(36) not null,
+    business_id int not null,
+    title varchar(150) not null,
+    permalink varchar(150) not null,
+    sequence tinyint unsigned not null,
+    ctype tinyint unsigned not null,
+    webflags tinyint unsigned not null,
+    short_description varchar(6000) not null,
+    full_description text not null,
+    base_notes text not null,
+    addon_description text not null,
+    addon_notes text not null,
+    future_description text not null,
+    future_notes text not null,
+    signup_text varchar(50) not null,
+    signup_url varchar(250) not null,
+    date_added datetime not null,
+    last_updated datetime not null,
+    primary key (id),
+    index sync (business_id, uuid, last_updated)
 ) ENGINE='InnoDB', COMMENT='v1.01', CHARACTER SET latin1, COLLATE latin1_swedish_ci;
