@@ -59,7 +59,7 @@ function ciniki_marketing_planUpdate(&$ciniki) {
         return $rc;
     }
     if( !isset($rc['item']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1760', 'msg'=>'Plan not found'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.4', 'msg'=>'Plan not found'));
     }
     $item = $rc['item'];
 
@@ -72,7 +72,7 @@ function ciniki_marketing_planUpdate(&$ciniki) {
         } elseif( !isset($args['group_name']) && isset($args['name']) ) {
             $args['permalink'] = ciniki_core_makePermalink($ciniki, $item['group_name'] . '-' . $args['name']);
         } else {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1756', 'msg'=>'Internal error'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.5', 'msg'=>'Internal error'));
         }
         //
         // Make sure the permalink is unique
@@ -88,7 +88,7 @@ function ciniki_marketing_planUpdate(&$ciniki) {
             return $rc;
         }
         if( $rc['num_rows'] > 0 ) {
-            return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1761', 'msg'=>'You already have an plan with this name, please choose another name'));
+            return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.6', 'msg'=>'You already have an plan with this name, please choose another name'));
         }
     }
 

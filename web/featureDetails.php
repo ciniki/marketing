@@ -58,7 +58,7 @@ function ciniki_marketing_web_featureDetails($ciniki, $settings, $business_id, $
         return $rc;
     }
     if( !isset($rc['features']) || count($rc['features']) < 1 ) {
-        return array('stat'=>'404', 'err'=>array('pkg'=>'ciniki', 'code'=>'1288', 'msg'=>"I'm sorry, but we can't find the feature you requested."));
+        return array('stat'=>'404', 'err'=>array('code'=>'ciniki.marketing.27', 'msg'=>"I'm sorry, but we can't find the feature you requested."));
     }
     $feature = array_pop($rc['features']);
 

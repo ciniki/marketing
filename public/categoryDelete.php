@@ -48,7 +48,7 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
         return $rc;
     }
     if( !isset($rc['item']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1746', 'msg'=>'Category does not exist'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.11', 'msg'=>'Category does not exist'));
     }
     $item = $rc['item'];
 

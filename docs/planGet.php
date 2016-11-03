@@ -79,7 +79,7 @@ function ciniki_marketing_planGet($ciniki) {
         return $rc;
     }
     if( !isset($rc['plans']) ) {
-        return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1759', 'msg'=>'Unable to find plan'));
+        return array('stat'=>'ok', 'err'=>array('code'=>'ciniki.marketing.3', 'msg'=>'Unable to find plan'));
     }
     $plan = $rc['plans'][0]['plan'];
 

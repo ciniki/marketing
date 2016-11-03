@@ -74,7 +74,7 @@ function ciniki_marketing_categoryAdd(&$ciniki) {
         return $rc;
     }
     if( $rc['num_rows'] > 0 ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1744', 'msg'=>'You already have an category with this name, please choose another name'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.10', 'msg'=>'You already have an category with this name, please choose another name'));
     }
 
     //

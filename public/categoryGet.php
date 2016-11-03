@@ -74,7 +74,7 @@ function ciniki_marketing_categoryGet($ciniki) {
         return $rc;
     }
     if( !isset($rc['categories']) ) {
-        return array('stat'=>'ok', 'err'=>array('pkg'=>'ciniki', 'code'=>'1745', 'msg'=>'Unable to find category'));
+        return array('stat'=>'ok', 'err'=>array('code'=>'ciniki.marketing.12', 'msg'=>'Unable to find category'));
     }
     $category = $rc['categories'][0]['category'];
 

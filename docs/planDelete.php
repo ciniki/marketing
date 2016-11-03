@@ -46,7 +46,7 @@ function ciniki_marketing_planDelete(&$ciniki) {
         return $rc;
     }
     if( !isset($rc['item']) ) {
-        return array('stat'=>'fail', 'err'=>array('pkg'=>'ciniki', 'code'=>'1758', 'msg'=>'Plan does not exist'));
+        return array('stat'=>'fail', 'err'=>array('code'=>'ciniki.marketing.2', 'msg'=>'Plan does not exist'));
     }
     $item = $rc['item'];
 
