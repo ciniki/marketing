@@ -56,7 +56,7 @@ function ciniki_marketing_category() {
         this.edit.sectionData = function(s) { return this.data[s]; }
         this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
         this.edit.fieldHistoryArgs = function(s, i) {
-            return {'method':'ciniki.marketing.categoryHistory', 'args':{'business_id':M.curBusinessID, 
+            return {'method':'ciniki.marketing.categoryHistory', 'args':{'tnid':M.curTenantID, 
                 'category_id':this.category_id, 'field':i}};
         }
         this.edit.addButton('save', 'Save', 'M.ciniki_marketing_category.saveCategory();');
@@ -88,7 +88,7 @@ function ciniki_marketing_category() {
         this.edit.reset();
         if( fid != null ) { this.edit.category_id = fid; }
         if( this.edit.category_id > 0 ) {
-            M.api.getJSONCb('ciniki.marketing.categoryGet', {'business_id':M.curBusinessID, 
+            M.api.getJSONCb('ciniki.marketing.categoryGet', {'tnid':M.curTenantID, 
                 'category_id':this.edit.category_id, 'images':'yes'}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
@@ -112,7 +112,7 @@ function ciniki_marketing_category() {
             var c = this.edit.serializeForm('no');
             if( c != '' ) {
                 M.api.postJSONCb('ciniki.marketing.categoryUpdate', 
-                    {'business_id':M.curBusinessID, 'category_id':M.ciniki_marketing_category.edit.category_id}, c,
+                    {'tnid':M.curTenantID, 'category_id':M.ciniki_marketing_category.edit.category_id}, c,
                     function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -127,7 +127,7 @@ function ciniki_marketing_category() {
             var c = this.edit.serializeForm('yes');
             c += '&ctype=10';
             M.api.postJSONCb('ciniki.marketing.categoryAdd', 
-                {'business_id':M.curBusinessID}, c, function(rsp) {
+                {'tnid':M.curTenantID}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -140,7 +140,7 @@ function ciniki_marketing_category() {
     this.removeCategory = function() {
         if( confirm("Are you sure you want to remove '" + this.edit.data.title + "' as a category ?") ) {
             var rsp = M.api.getJSONCb('ciniki.marketing.categoryDelete', 
-                {'business_id':M.curBusinessID, 'category_id':M.ciniki_marketing_category.edit.category_id}, function(rsp) {
+                {'tnid':M.curTenantID, 'category_id':M.ciniki_marketing_category.edit.category_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;

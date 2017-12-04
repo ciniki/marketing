@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This method will add a new feature for the business.
+// This method will add a new feature for the tenant.
 //
 // Arguments
 // ---------
 // api_key:
 // auth_token:
-// business_id:     The ID of the business to add the feature to.
+// tnid:     The ID of the tenant to add the feature to.
 // name:            The name of the feature.
 // url:             (optional) The URL for the feature website.
 // description:     (optional) The description for the feature.
@@ -25,7 +25,7 @@ function ciniki_marketing_featureAdd(&$ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'category_id'=>array('required'=>'no', 'blank'=>'no', 'default'=>'', 'name'=>'Category'), 
         'section'=>array('required'=>'no', 'blank'=>'no', 'default'=>'10', 'name'=>'Section'), 
         'sequence'=>array('required'=>'no', 'blank'=>'no', 'default'=>'10', 'name'=>'Section'), 
@@ -49,10 +49,10 @@ function ciniki_marketing_featureAdd(&$ciniki) {
     }
 
     //
-    // Check access to business_id as owner
+    // Check access to tnid as owner
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $ac = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureAdd');
+    $ac = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.featureAdd');
     if( $ac['stat'] != 'ok' ) {
         return $ac;
     }
@@ -61,7 +61,7 @@ function ciniki_marketing_featureAdd(&$ciniki) {
     // Check the permalink doesn't already exist
     //
     $strsql = "SELECT id FROM ciniki_marketing_features "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' " 
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' " 
         . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
         . "AND category_id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
         . "";
@@ -77,6 +77,6 @@ function ciniki_marketing_featureAdd(&$ciniki) {
     // Add the feature to the database
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
-    return ciniki_core_objectAdd($ciniki, $args['business_id'], 'ciniki.marketing.feature', $args);
+    return ciniki_core_objectAdd($ciniki, $args['tnid'], 'ciniki.marketing.feature', $args);
 }
 ?>

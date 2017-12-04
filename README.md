@@ -1,7 +1,7 @@
-Ciniki - Small Business Management Platform
+Ciniki - Multitenant Cloud Platform
 ===========================================
 
-The Marketing module stores information about events the business will be 
+The Marketing module stores information about events the tenant will be 
 associated with.
 
 License

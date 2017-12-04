@@ -7,7 +7,7 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business to add the image to.
+// tnid:         The ID of the tenant to add the image to.
 // feature_image_id:    The ID of the feature image to get.
 //
 // Returns
@@ -19,7 +19,7 @@ function ciniki_marketing_featureImageGet($ciniki) {
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'feature_image_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Feature Image'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
@@ -29,10 +29,10 @@ function ciniki_marketing_featureImageGet($ciniki) {
 
     //  
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureImageGet'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.featureImageGet'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }   
@@ -51,7 +51,7 @@ function ciniki_marketing_featureImageGet($ciniki) {
         . "ciniki_marketing_feature_images.image_id, "
         . "ciniki_marketing_feature_images.description "
         . "FROM ciniki_marketing_feature_images "
-        . "WHERE ciniki_marketing_feature_images.business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE ciniki_marketing_feature_images.tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "AND ciniki_marketing_feature_images.id = '" . ciniki_core_dbQuote($ciniki, $args['feature_image_id']) . "' "
         . "";
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbHashQueryTree');

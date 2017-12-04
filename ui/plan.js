@@ -38,7 +38,7 @@ function ciniki_marketing_plan() {
             };  
         this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
         this.edit.fieldHistoryArgs = function(s, i) {
-            return {'method':'ciniki.marketing.planHistory', 'args':{'business_id':M.curBusinessID, 
+            return {'method':'ciniki.marketing.planHistory', 'args':{'tnid':M.curTenantID, 
                 'plan_id':this.plan_id, 'field':i}};
         }
         this.edit.addDropImage = function(iid) {
@@ -79,7 +79,7 @@ function ciniki_marketing_plan() {
         if( pid != null ) { this.edit.plan_id = pid; }
 
         if( this.edit.plan_id > 0 ) {
-            M.api.getJSONCb('ciniki.marketing.planGet', {'business_id':M.curBusinessID, 
+            M.api.getJSONCb('ciniki.marketing.planGet', {'tnid':M.curTenantID, 
                 'plan_id':this.edit.plan_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
@@ -102,7 +102,7 @@ function ciniki_marketing_plan() {
             var c = this.edit.serializeForm('no');
             if( c != '' ) {
                 M.api.postJSONCb('ciniki.marketing.planUpdate', 
-                    {'business_id':M.curBusinessID, 'plan_id':M.ciniki_marketing_plan.edit.plan_id}, c,
+                    {'tnid':M.curTenantID, 'plan_id':M.ciniki_marketing_plan.edit.plan_id}, c,
                     function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -116,7 +116,7 @@ function ciniki_marketing_plan() {
         } else {
             var c = this.edit.serializeForm('yes');
             M.api.postJSONCb('ciniki.marketing.planAdd', 
-                {'business_id':M.curBusinessID}, c, function(rsp) {
+                {'tnid':M.curTenantID}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -129,7 +129,7 @@ function ciniki_marketing_plan() {
     this.removePlan = function() {
         if( confirm("Are you sure you want to remove '" + this.edit.data.name + "' as a plan ?") ) {
             var rsp = M.api.getJSONCb('ciniki.marketing.planDelete', 
-                {'business_id':M.curBusinessID, 'plan_id':M.ciniki_marketing_plan.edit.plan_id}, function(rsp) {
+                {'tnid':M.curTenantID, 'plan_id':M.ciniki_marketing_plan.edit.plan_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;

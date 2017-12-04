@@ -16,7 +16,7 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'category_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Category'),
         )); 
     if( $rc['stat'] != 'ok' ) { 
@@ -26,10 +26,10 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
 
     //  
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.categoryDelete'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.categoryDelete'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }   
@@ -40,7 +40,7 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
     // Get the existing category information
     //
     $strsql = "SELECT id, uuid FROM ciniki_marketing_categories "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "AND id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'item');
@@ -55,6 +55,6 @@ function ciniki_marketing_categoryDelete(&$ciniki) {
     //
     // Delete the object
     //
-    return ciniki_core_objectDelete($ciniki, $args['business_id'], 'ciniki.marketing.category', $args['category_id'], $item['uuid'], 0x07);
+    return ciniki_core_objectDelete($ciniki, $args['tnid'], 'ciniki.marketing.category', $args['category_id'], $item['uuid'], 0x07);
 }
 ?>

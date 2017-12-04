@@ -8,7 +8,7 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business to get the history for.
+// tnid:         The ID of the tenant to get the history for.
 // feature_image_id:    The ID of the feature image to get the history for.
 // field:               The field to get the history for.
 //
@@ -29,7 +29,7 @@ function ciniki_marketing_featureImageHistory($ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'feature_image_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Image'), 
         'field'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Field'), 
         ));
@@ -39,16 +39,16 @@ function ciniki_marketing_featureImageHistory($ciniki) {
     $args = $rc['args'];
     
     //
-    // Check access to business_id as owner, or sys admin
+    // Check access to tnid as owner, or sys admin
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureImageHistory');
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.featureImageHistory');
     if( $rc['stat'] != 'ok' ) {
         return $rc;
     }
 
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'dbGetModuleHistory');
     return ciniki_core_dbGetModuleHistory($ciniki, 'ciniki.marketing', 'ciniki_marketing_history', 
-        $args['business_id'], 'ciniki_marketing_feature_images', $args['feature_image_id'], $args['field']);
+        $args['tnid'], 'ciniki_marketing_feature_images', $args['feature_image_id'], $args['field']);
 }
 ?>

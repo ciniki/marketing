@@ -7,7 +7,7 @@
 // ---------
 // api_key:
 // auth_token:
-// business_id:         The ID of the business to add the feature image to.
+// tnid:         The ID of the tenant to add the feature image to.
 // name:                The name of the image.  
 //
 // Returns
@@ -20,7 +20,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'feature_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Feature'), 
         'category_id'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Category'), 
         'section'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Section'), 
@@ -40,10 +40,10 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
 
     //  
     // Make sure this module is activated, and
-    // check permission to run this function for this business
+    // check permission to run this function for this tenant
     //  
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $rc = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.featureUpdate'); 
+    $rc = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.featureUpdate'); 
     if( $rc['stat'] != 'ok' ) { 
         return $rc;
     }
@@ -53,7 +53,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
     //
     $strsql = "SELECT id, uuid, category_id, title, primary_image_id "
         . "FROM ciniki_marketing_features "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
         . "AND id = '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'item');
@@ -80,7 +80,7 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
         //
         $strsql = "SELECT id, title, permalink "
             . "FROM ciniki_marketing_features "
-            . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' "
+            . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' "
             . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
             . "AND category_id = '" . ciniki_core_dbQuote($ciniki, $category_id) . "' "
             . "AND id <> '" . ciniki_core_dbQuote($ciniki, $args['feature_id']) . "' "
@@ -98,6 +98,6 @@ function ciniki_marketing_featureUpdate(&$ciniki) {
     // Update the feature in the database
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectUpdate');
-    return ciniki_core_objectUpdate($ciniki, $args['business_id'], 'ciniki.marketing.feature', $args['feature_id'], $args);
+    return ciniki_core_objectUpdate($ciniki, $args['tnid'], 'ciniki.marketing.feature', $args['feature_id'], $args);
 }
 ?>

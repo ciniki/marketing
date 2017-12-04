@@ -2,13 +2,13 @@
 //
 // Description
 // -----------
-// This method will add a new plan for the business.
+// This method will add a new plan for the tenant.
 //
 // Arguments
 // ---------
 // api_key:
 // auth_token:
-// business_id:     The ID of the business to add the plan to.
+// tnid:     The ID of the tenant to add the plan to.
 // name:            The name of the plan.
 // url:             (optional) The URL for the plan website.
 // description:     (optional) The description for the plan.
@@ -25,7 +25,7 @@ function ciniki_marketing_planAdd(&$ciniki) {
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'prepareArgs');
     $rc = ciniki_core_prepareArgs($ciniki, 'no', array(
-        'business_id'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Business'), 
+        'tnid'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Tenant'), 
         'group_name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'Group'), 
         'name'=>array('required'=>'yes', 'blank'=>'no', 'name'=>'name'), 
         'permalink'=>array('required'=>'no', 'blank'=>'no', 'name'=>'Permalink'), 
@@ -47,10 +47,10 @@ function ciniki_marketing_planAdd(&$ciniki) {
     }
 
     //
-    // Check access to business_id as owner
+    // Check access to tnid as owner
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'marketing', 'private', 'checkAccess');
-    $ac = ciniki_marketing_checkAccess($ciniki, $args['business_id'], 'ciniki.marketing.planAdd');
+    $ac = ciniki_marketing_checkAccess($ciniki, $args['tnid'], 'ciniki.marketing.planAdd');
     if( $ac['stat'] != 'ok' ) {
         return $ac;
     }
@@ -59,7 +59,7 @@ function ciniki_marketing_planAdd(&$ciniki) {
     // Check the permalink doesn't already exist
     //
     $strsql = "SELECT id FROM ciniki_marketing_plans "
-        . "WHERE business_id = '" . ciniki_core_dbQuote($ciniki, $args['business_id']) . "' " 
+        . "WHERE tnid = '" . ciniki_core_dbQuote($ciniki, $args['tnid']) . "' " 
         . "AND permalink = '" . ciniki_core_dbQuote($ciniki, $args['permalink']) . "' "
         . "";
     $rc = ciniki_core_dbHashQuery($ciniki, $strsql, 'ciniki.marketing', 'plan');
@@ -74,6 +74,6 @@ function ciniki_marketing_planAdd(&$ciniki) {
     // Add the plan to the database
     //
     ciniki_core_loadMethod($ciniki, 'ciniki', 'core', 'private', 'objectAdd');
-    return ciniki_core_objectAdd($ciniki, $args['business_id'], 'ciniki.marketing.plan', $args);
+    return ciniki_core_objectAdd($ciniki, $args['tnid'], 'ciniki.marketing.plan', $args);
 }
 ?>

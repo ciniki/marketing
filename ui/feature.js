@@ -62,7 +62,7 @@ function ciniki_marketing_feature() {
         this.edit.sectionData = function(s) { return this.data[s]; }
         this.edit.fieldValue = function(s, i, d) { return this.data[i]; }
         this.edit.fieldHistoryArgs = function(s, i) {
-            return {'method':'ciniki.marketing.featureHistory', 'args':{'business_id':M.curBusinessID, 
+            return {'method':'ciniki.marketing.featureHistory', 'args':{'tnid':M.curTenantID, 
                 'feature_id':this.feature_id, 'field':i}};
         }
         this.edit.deletePrimaryImage = function(fid) {
@@ -72,7 +72,7 @@ function ciniki_marketing_feature() {
         this.edit.addDropImage = function(iid) {
             if( M.ciniki_marketing_feature.edit.feature_id > 0 ) {
                 var rsp = M.api.getJSON('ciniki.marketing.featureImageAdd', 
-                    {'business_id':M.curBusinessID, 'image_id':iid, 
+                    {'tnid':M.curTenantID, 'image_id':iid, 
                     'feature_id':M.ciniki_marketing_feature.edit.feature_id});
                 if( rsp.stat != 'ok' ) {
                     M.api.err(rsp);
@@ -85,7 +85,7 @@ function ciniki_marketing_feature() {
         };
         this.edit.addDropImageRefresh = function() {
             if( M.ciniki_marketing_feature.edit.feature_id > 0 ) {
-                var rsp = M.api.getJSONCb('ciniki.marketing.featureGet', {'business_id':M.curBusinessID, 
+                var rsp = M.api.getJSONCb('ciniki.marketing.featureGet', {'tnid':M.curTenantID, 
                     'feature_id':M.ciniki_marketing_feature.edit.feature_id, 'images':'yes'}, function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -131,7 +131,7 @@ function ciniki_marketing_feature() {
         this.edit.reset();
         if( fid != null ) { this.edit.feature_id = fid; }
         if( this.edit.feature_id > 0 ) {
-            M.api.getJSONCb('ciniki.marketing.featureGet', {'business_id':M.curBusinessID, 
+            M.api.getJSONCb('ciniki.marketing.featureGet', {'tnid':M.curTenantID, 
                 'feature_id':this.edit.feature_id, 'images':'yes'}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
@@ -152,7 +152,7 @@ function ciniki_marketing_feature() {
     };
 
     this.setupCategories = function(cb) {
-        M.api.getJSONCb('ciniki.marketing.categoryList', {'business_id':M.curBusinessID,
+        M.api.getJSONCb('ciniki.marketing.categoryList', {'tnid':M.curTenantID,
             'type':'10'}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
@@ -172,7 +172,7 @@ function ciniki_marketing_feature() {
             var c = this.edit.serializeForm('no');
             if( c != '' ) {
                 M.api.postJSONCb('ciniki.marketing.featureUpdate', 
-                    {'business_id':M.curBusinessID, 'feature_id':M.ciniki_marketing_feature.edit.feature_id}, c,
+                    {'tnid':M.curTenantID, 'feature_id':M.ciniki_marketing_feature.edit.feature_id}, c,
                     function(rsp) {
                         if( rsp.stat != 'ok' ) {
                             M.api.err(rsp);
@@ -189,7 +189,7 @@ function ciniki_marketing_feature() {
                 c += '&images=' . this.edit.additional_images.join(',');
             }
             M.api.postJSONCb('ciniki.marketing.featureAdd', 
-                {'business_id':M.curBusinessID}, c, function(rsp) {
+                {'tnid':M.curTenantID}, c, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;
@@ -202,7 +202,7 @@ function ciniki_marketing_feature() {
     this.removeFeature = function() {
         if( confirm("Are you sure you want to remove '" + this.edit.data.title + "' as a feature ?") ) {
             var rsp = M.api.getJSONCb('ciniki.marketing.featureDelete', 
-                {'business_id':M.curBusinessID, 'feature_id':M.ciniki_marketing_feature.edit.feature_id}, function(rsp) {
+                {'tnid':M.curTenantID, 'feature_id':M.ciniki_marketing_feature.edit.feature_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
                         M.api.err(rsp);
                         return false;

@@ -9,7 +9,7 @@
 // Returns
 // -------
 //
-function ciniki_marketing_web_featureList($ciniki, $settings, $business_id, $args) {
+function ciniki_marketing_web_featureList($ciniki, $settings, $tnid, $args) {
 
 
     $strsql = "SELECT ciniki_marketing_features.id, "
@@ -22,7 +22,7 @@ function ciniki_marketing_web_featureList($ciniki, $settings, $business_id, $arg
         . "FROM ciniki_marketing_categories "
         . "LEFT JOIN ciniki_marketing_features ON ("
             . "ciniki_marketing_categories.id = ciniki_marketing_features.category_id "
-            . "AND ciniki_marketing_features.business_id = '" . ciniki_core_dbQuote($ciniki, $business_id) . "' "
+            . "AND ciniki_marketing_features.tnid = '" . ciniki_core_dbQuote($ciniki, $tnid) . "' "
             . "AND (ciniki_marketing_features.webflags&0x01) = 1 "
             . ") "
         . "WHERE ciniki_marketing_categories.id = '" . ciniki_core_dbQuote($ciniki, $args['category_id']) . "' "
