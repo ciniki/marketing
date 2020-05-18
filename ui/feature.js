@@ -120,7 +120,7 @@ function ciniki_marketing_feature() {
         //
         var appContainer = M.createContainer(appPrefix, 'ciniki_marketing_feature', 'yes');
         if( appContainer == null ) {
-            alert('App Error');
+            M.alert('App Error');
             return false;
         } 
 
@@ -200,7 +200,7 @@ function ciniki_marketing_feature() {
     };
 
     this.removeFeature = function() {
-        if( confirm("Are you sure you want to remove '" + this.edit.data.title + "' as a feature ?") ) {
+        M.confirm("Are you sure you want to remove '" + this.edit.data.title + "' as a feature ?",null,function() {
             var rsp = M.api.getJSONCb('ciniki.marketing.featureDelete', 
                 {'tnid':M.curTenantID, 'feature_id':M.ciniki_marketing_feature.edit.feature_id}, function(rsp) {
                     if( rsp.stat != 'ok' ) {
@@ -209,6 +209,6 @@ function ciniki_marketing_feature() {
                     }
                     M.ciniki_marketing_feature.edit.close();
                 });
-        }
+        });
     }
 };
